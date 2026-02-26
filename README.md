@@ -76,7 +76,7 @@ o   Target group → attach ASG instances
 o    Open ALB DNS → Refresh → See page load from different instances
 
 ---
-<h1><a class="anchor" id="project-1"></a>PROJECT 2</h1>
+<h1><a class="anchor" id="project-2"></a>PROJECT 2</h1>
 
 # AWS PROJECT 2: Serverless REST API (API Gateway + Lambda + DynamoDB)
 **Project Goal:** To Build a serverless API performing CRUD operations.
