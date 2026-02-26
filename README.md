@@ -1,6 +1,8 @@
 # AWS-Hands-On-Resume-Projects
 This is Complete Console-Based Guide. This guide is ready-to-use, beginner-friendly, and includes full instructions for building three AWS projects with testing and monitoring.
 
+---
+
 # PROJECT 1: Highly Available Web Application (EC2 + ALB + ASG)
 Goal: Deploy a web app that automatically scales and is highly available.
 
@@ -44,11 +46,11 @@ o   EC2 → Launch Instance → Amazon Linux 2 → t3.micro
 o   Security Group: EC2 SG
 
 o   User data script:
-
-    yum install -y httpd
+```bash
+yum install -y httpd
 systemctl start httpd
 echo "Healthy from $(hostname)" > /var/www/html/index.html
-
+```
 8. **Create Auto Scaling Group**
 
 o   EC2 → Auto Scaling Groups → Launch template → Private subnets → Desired 2, Min 2, Max 4
@@ -63,18 +65,19 @@ o   Target group → attach ASG instances
 
 10. **Validation**
 
-·       Open ALB DNS → Refresh → See page load from different instances
+o    Open ALB DNS → Refresh → See page load from different instances
 
+---
 
 # PROJECT 2: Serverless REST API (API Gateway + Lambda + DynamoDB)
 Goal: Build a serverless API performing CRUD operations.
 
-Steps:
+**Steps:**
 1. **Create DynamoDB Table**
 
 o   Table name: users | Partition key: id (String) | On-demand capacity
 
-2.        Create IAM Role for Lambda
+2. **Create IAM Role for Lambda**
 
 o   IAM → Roles → Create Role → Trusted entity: Lambda
 
@@ -86,6 +89,7 @@ o   Lambda → Create → Python → Attach IAM role
 
 o   Add code: ```python import json import boto3 from boto3.dynamodb.conditions import Key
 
+```bash
 dynamodb = boto3.resource(‘dynamodb’) table = dynamodb.Table(‘users’)
 
 def lambda_handler(event, context): method = event[‘httpMethod’] if method == ‘POST’: body = json.loads(event[‘body’]) table.put_item(Item=body) return {‘statusCode’: 200, ‘body’: json.dumps(‘User created’)}
@@ -113,7 +117,7 @@ elif method == 'DELETE':
 
 else:
         return {'statusCode': 400, 'body': json.dumps('Unsupported method')}
-
+```
 
 4. **Create API Gateway**
    - REST API → Name: `users-api` → Resource `/users` → Methods: GET, POST, PUT, DELETE → Integrate with Lambda
@@ -123,24 +127,89 @@ else:
 - Invoke URL: `https://abcd1234.execute-api.us-east-1.amazonaws.com/dev`
 - Browser (GET): `https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users?id=123`
 
-- curl POST:
+- **curl POST:**
 ```bash
 curl -X POST https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users \
 -H "Content-Type: application/json" \
 -d '{"id":"123","name":"Alice","info":"Tester"}'
 ```
-- curl GET:
+- **curl GET:**
 ```bash
 curl -X GET "https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users?id=123"
 ```
-- curl PUT:
+- **curl PUT:**
 ```bash
 curl -X PUT https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users \
 -H "Content-Type: application/json" \
 -d '{"id":"123","info":"Updated info"}'
 ```
-- curl DELETE:
+- **curl DELETE:**
 ```bash
 curl -X DELETE "https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users?id=123"
 ```
-Validate POST → GET → PUT → GET → DELETE → GET sequence
+### Validate POST → GET → PUT → GET → DELETE → GET sequence
+
+---
+
+# PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)
+Goal: Detect failures and alert proactively.
+
+Steps:
+1.**Install CloudWatch Agent on EC2**
+
+### Connect to EC2
+ssh -i /path/to/key.pem ec2-user@<EC2_PUBLIC_IP>
+
+### Update packages
+sudo yum update -y
+
+### Download agent
+wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
+
+### Install agent
+sudo rpm -U ./amazon-cloudwatch-agent.rpm
+
+2.**Configure Agent**
+
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
+
+·       Choose EC2
+
+·       OS: Amazon Linux
+
+·       Metrics: CPU, memory, disk, network (as needed)
+
+·       Logs: Yes → e.g., /var/log/messages, /var/log/httpd/access_log
+
+·       CloudWatch Logs group: /ec2/app-logs
+
+·       IAM Role: CloudWatchAgentServerPolicy
+
+3.**Start Agent**
+
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+-a fetch-config \
+-m ec2 \
+-c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json \
+-s
+
+4.**Verify Logs in CloudWatch**
+
+·       Go to CloudWatch → Logs → Log Groups → /ec2/app-logs
+
+·       Check log streams → see EC2 logs
+
+5.**Create Alarms and SNS Notifications**
+
+·       CloudWatch → Alarms → Create alarm (CPU >70%, ALB 5xx)
+
+·       SNS → Create topic alerts → Subscribe email
+
+·       Link alarms to SNS → Receive notifications
+
+6.**Validation**
+
+·       Stress EC2 → CPU alarm triggers → email received
+
+---
+Interview Tips: - Explain service purpose, failure handling, security, cost, and scaling
