@@ -1,12 +1,19 @@
 # AWS-Hands-On-Resume-Projects
+### Summary:
 This is Complete Console-Based Guide. This guide is ready-to-use, beginner-friendly, and includes full instructions for building three AWS projects with testing and monitoring.
 
 ---
+📌 **Tables of Contents**
+- <a href="project-1">PROJECT 1</a>
+- <a href="project-2">PROJECT 2</a>
+- <a href="project-3">PROJECT 3</a>
 
-# PROJECT 1: Highly Available Web Application (EC2 + ALB + ASG)
-Goal: Deploy a web app that automatically scales and is highly available.
+---
+<h1><a class="anchor" id="project-1"></a>PROJECT 1: Highly Available Web Application (EC2 + ALB + ASG)</h1>
 
-**Steps:**
+**Project Goal:** To Deploy a web app that automatically scales and is highly available.
+
+### Steps:
 1. **Create VPC**
 
 o   VPC → Your VPCs → Create VPC
@@ -68,11 +75,11 @@ o   Target group → attach ASG instances
 o    Open ALB DNS → Refresh → See page load from different instances
 
 ---
+<h1><a class="anchor" id="project-1"></a>PROJECT 2: Serverless REST API (API Gateway + Lambda + DynamoDB)</h1>
 
-# PROJECT 2: Serverless REST API (API Gateway + Lambda + DynamoDB)
-Goal: Build a serverless API performing CRUD operations.
+**Project Goal:** To Build a serverless API performing CRUD operations.
 
-**Steps:**
+### Steps:
 1. **Create DynamoDB Table**
 
 o   Table name: users | Partition key: id (String) | On-demand capacity
@@ -87,9 +94,9 @@ o   Attach permissions: AWSLambdaBasicExecutionRole + DynamoDB read/write policy
 
 o   Lambda → Create → Python → Attach IAM role
 
-o   Add code: ```python import json import boto3 from boto3.dynamodb.conditions import Key
-
+o  **Add code:** 
 ```bash
+python import json import boto3 from boto3.dynamodb.conditions import Key
 dynamodb = boto3.resource(‘dynamodb’) table = dynamodb.Table(‘users’)
 
 def lambda_handler(event, context): method = event[‘httpMethod’] if method == ‘POST’: body = json.loads(event[‘body’]) table.put_item(Item=body) return {‘statusCode’: 200, ‘body’: json.dumps(‘User created’)}
@@ -150,12 +157,12 @@ curl -X DELETE "https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users?i
 ### Validate POST → GET → PUT → GET → DELETE → GET sequence
 
 ---
+<h1><a class="anchor" id="project-1"></a>PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)</h1>
 
-# PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)
-Goal: Detect failures and alert proactively.
+**Project Goal:** To Detect failures and alert proactively.
 
-Steps:
-1.**Install CloudWatch Agent on EC2**
+### Steps:
+1. **Install CloudWatch Agent on EC2**
 
 ### Connect to EC2
 ssh -i /path/to/key.pem ec2-user@<EC2_PUBLIC_IP>
@@ -169,7 +176,7 @@ wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/a
 ### Install agent
 sudo rpm -U ./amazon-cloudwatch-agent.rpm
 
-2.**Configure Agent**
+2. **Configure Agent**
 
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
 
@@ -185,7 +192,7 @@ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
 
 ·       IAM Role: CloudWatchAgentServerPolicy
 
-3.**Start Agent**
+3. **Start Agent**
 
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
 -a fetch-config \
@@ -193,13 +200,13 @@ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json \
 -s
 
-4.**Verify Logs in CloudWatch**
+4. **Verify Logs in CloudWatch**
 
 ·       Go to CloudWatch → Logs → Log Groups → /ec2/app-logs
 
 ·       Check log streams → see EC2 logs
 
-5.**Create Alarms and SNS Notifications**
+5. **Create Alarms and SNS Notifications**
 
 ·       CloudWatch → Alarms → Create alarm (CPU >70%, ALB 5xx)
 
@@ -207,7 +214,7 @@ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
 
 ·       Link alarms to SNS → Receive notifications
 
-6.**Validation**
+6. **Validation**
 
 ·       Stress EC2 → CPU alarm triggers → email received
 
