@@ -1,7 +1,7 @@
 # AWS-Hands-On-Resume-Projects
 This is Complete Console-Based Guide. This guide is ready-to-use, beginner-friendly, and includes full instructions for building three AWS projects with testing and monitoring.
 
-PROJECT 1: Highly Available Web Application (EC2 + ALB + ASG)
+*PROJECT 1: Highly Available Web Application (EC2 + ALB + ASG)*
 Goal: Deploy a web app that automatically scales and is highly available.
 
 Steps:
@@ -66,7 +66,7 @@ o   Target group → attach ASG instances
 ·       Open ALB DNS → Refresh → See page load from different instances
 
 
-PROJECT 2: Serverless REST API (API Gateway + Lambda + DynamoDB)
+*PROJECT 2: Serverless REST API (API Gateway + Lambda + DynamoDB)*
 Goal: Build a serverless API performing CRUD operations.
 
 Steps:
@@ -145,7 +145,7 @@ curl -X DELETE "https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users?i
 Validate POST → GET → PUT → GET → DELETE → GET sequence.
 
 
-PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)
+*PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)*
 Goal: Detect failures and alert proactively.
 
 Steps:
