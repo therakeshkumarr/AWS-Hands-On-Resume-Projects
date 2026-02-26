@@ -9,8 +9,9 @@ This is Complete Console-Based Guide. This guide is ready-to-use, beginner-frien
 - <a href="project-3">PROJECT 3</a>
 
 ---
-<h1><a class="anchor" id="project-1"></a>PROJECT 1: Highly Available Web Application (EC2 + ALB + ASG)</h1>
+<h1><a class="anchor" id="project-1"></a>PROJECT 1</h1>
 
+# AWS PROJECT 1: Highly Available Web Application (EC2 + ALB + ASG)
 **Project Goal:** To Deploy a web app that automatically scales and is highly available.
 
 ### Steps:
@@ -75,8 +76,9 @@ o   Target group → attach ASG instances
 o    Open ALB DNS → Refresh → See page load from different instances
 
 ---
-<h1><a class="anchor" id="project-1"></a>PROJECT 2: Serverless REST API (API Gateway + Lambda + DynamoDB)</h1>
+<h1><a class="anchor" id="project-1"></a>PROJECT 2</h1>
 
+# AWS PROJECT 2: Serverless REST API (API Gateway + Lambda + DynamoDB)
 **Project Goal:** To Build a serverless API performing CRUD operations.
 
 ### Steps:
@@ -157,9 +159,9 @@ curl -X DELETE "https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users?i
 ### Validate POST → GET → PUT → GET → DELETE → GET sequence
 
 ---
-<h1><a class="anchor" id="project-3"></a>PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)</h1>
+<h1><a class="anchor" id="project-3"></a>PROJECT 3</h1>
 
-PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)
+# AWS PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)
 **Project Goal:** To Detect failures and alert proactively.
 
 ### Steps:
