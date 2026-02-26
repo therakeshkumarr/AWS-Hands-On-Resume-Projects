@@ -140,10 +140,9 @@ curl -X PUT https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users \
 - curl DELETE:
 curl -X DELETE "https://abcd1234.execute-api.us-east-1.amazonaws.com/dev/users?id=123"
 
-Validate POST → GET → PUT → GET → DELETE → GET sequence. \
+Validate POST → GET → PUT → GET → DELETE → GET sequence
 
-
-**PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)**
+# PROJECT 3: Centralized Monitoring & Alerting (CloudWatch + SNS)
 Goal: Detect failures and alert proactively.
 
 Steps:
